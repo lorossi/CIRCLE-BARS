@@ -5,7 +5,7 @@ class Sketch extends Engine {
     this._circle_r = this.width / 8;
     this._h = (this.width / 2 - this._circle_r) * 0.9;
     this._duration = 600;
-    this._recording = true;
+    this._recording = false;
   }
 
   setup() {
