@@ -1,24 +1,27 @@
 class Sketch extends Engine {
   preload() {
     this._bars_num = 40;
-    this._noise_r = 1.5;
+    this._noise_r = 1.1;
     this._circle_r = this.width / 8;
-    this._h = (this.width / 2 - this._circle_r) * 0.9;
+    this._h = this.width / 2 - this._circle_r;
     this._duration = 600;
-    this._recording = false;
+    this._recording = true;
   }
 
   setup() {
     // setup capturer
     this._capturer_started = false;
     if (this._recording) {
-      this._capturer = new CCapture({ format: "png" });
+      this._capturer = new CCapture({
+        format: "png"
+      });
     }
     // setup noise
     this._noise = new SimplexNoise();
     // create bars
     this._bars = [];
     for (let i = 0; i < this._bars_num; i++) {
+      // bar angle
       const theta = (i / this._bars_num) * Math.PI * 2;
       this._bars.push(new Bar(this._circle_r, theta, this._h, this._noise));
     }
