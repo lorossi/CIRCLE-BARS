@@ -1,23 +1,21 @@
 class Sketch extends Engine {
   preload() {
+    this._recording = true;
+    this._duration = 600;
     this._bars_num = 40;
     this._noise_r = 1.1;
     this._circle_r = this.width / 8;
     this._h = this.width / 2 - this._circle_r;
-    this._duration = 600;
-    this._recording = true;
   }
 
   setup() {
-    // setup capturer
-    this._capturer_started = false;
-    if (this._recording) {
-      this._capturer = new CCapture({
-        format: "png"
-      });
-    }
     // setup noise
     this._noise = new SimplexNoise();
+    // setup capturer
+    if (this._recording) {
+      this._capturer = new CCapture({ format: "png" });
+      this._capturer.start();
+    }
     // create bars
     this._bars = [];
     for (let i = 0; i < this._bars_num; i++) {
@@ -28,13 +26,6 @@ class Sketch extends Engine {
   }
 
   draw() {
-    // start capturer
-    if (!this._capturer_started && this._recording) {
-      this._capturer_started = true;
-      this._capturer.start();
-      console.log("%c Recording started", "color: green; font-size: 2rem");
-    }
-
     // noise time positions
     const percent = (this.frameCount % this._duration) / this._duration;
     const nx = this._noise_r * (1 + Math.cos(percent * Math.PI * 2));
@@ -54,17 +45,12 @@ class Sketch extends Engine {
 
     // handle recording
     if (this._recording) {
-      if (this.frameCount % 60 == 0) {
-        const update = `Record: ${parseInt(percent * 100)}%`;
-        console.log(`%c ${update}`, "color: yellow; font-size: 0.75rem");
-      }
       if (this.frameCount < this._duration) {
         this._capturer.capture(this._canvas);
       } else {
         this._recording = false;
         this._capturer.stop();
         this._capturer.save();
-        console.log("%c Recording ended", "color: red; font-size: 2rem");
       }
     }
   }
