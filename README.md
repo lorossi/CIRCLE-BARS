@@ -1,6 +1,6 @@
 # Circle bars
 
-What do bars when they are lonely? They jump around in circles. 
+What do bars when they are lonely? They jump around in circles.
 
 *What where you expecting?*
 
